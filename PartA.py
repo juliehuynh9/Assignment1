@@ -2,10 +2,65 @@ import sys
 import os
 import operator
 
+# def tokenize(text_file_path: str) -> list:
+#     """
+#     Runtime Complexity: This is O(N^2) because it uses a for loop within a for loop.
+#
+#     Reads in a text file and returns a list of the tokens in that file.
+#     For the purposes of this project, a token is a sequence of alphanumeric characters, independent of capitalization.
+#
+#     :param text_file_path: Path to the text file to be read.
+#     :return: List of the tokens in that file.
+#     """
+#
+#     # Initialize list of tokens and variables
+#     list_of_tokens = []
+#     buffer_size = 256
+#     temp_token = ''
+#
+#     try:
+#
+#         # Open and read in a text file chunk by chunk
+#         with open(text_file_path, 'r', encoding='utf-8') as text_file:
+#
+#             while True:
+#                 # Reads data in chinks the size of the buffer size
+#                 data = text_file.read(buffer_size)
+#                 if not data:
+#                     break
+#
+#                 # splits data in lines so it's easier to read
+#                 temp_token += data
+#                 lines = temp_token.split('\n')
+#                 temp_token = lines.pop() if lines else ''
+#
+#                 # iterates through each line in the lines
+#                 for line in lines:
+#                     # splits the line into words
+#                     words = line.split()
+#                     # Sorts the words
+#                     for w in words:
+#                         # Check if char is alphanumeric
+#                         token = ''.join(char for char in w if char.isalnum() and char.isascii())
+#                         if token:
+#                             # Appends each token to list and makes it lowercase
+#                             list_of_tokens.append(token.lower())
+#
+#             for w in words:
+#                 # Check if char is alphanumeric
+#                 token = ''.join(char for char in w if char.isalnum() and char.isascii())
+#                 if token:
+#                     # Appends each token to list and makes it lowercase
+#                     list_of_tokens.append(token.lower())
+#
+#     except FileNotFoundError:
+#         print("File not found.")
+#     except Exception as e:
+#         print("An error occurred:", e)
+#     return list_of_tokens
+
 def tokenize(text_file_path: str) -> list:
     """
-    Runtime Complexity: This function is O(N^2) because we used a for loop within a for loop
-
     Reads in a text file and returns a list of the tokens in that file.
     For the purposes of this project, a token is a sequence of alphanumeric characters, independent of capitalization.
 
@@ -15,21 +70,48 @@ def tokenize(text_file_path: str) -> list:
 
     # Initialize list of tokens
     list_of_tokens = []
+    buffer_size = 256
+    temp_token = b''
 
     try:
-        # Open and read in a text file
-        with open(text_file_path, 'r', encoding='utf-8') as text_file:
-            # Iterate over each line in the file
-            for line in text_file:
-                # Split the line into words
-                words = line.split()
-                # Process each word
-                for word in words:
-                    # Check if the word contains only alphanumeric characters and is ASCII and join each character
-                    token = ''.join(char for char in word if char.isalnum() and char.isascii())
-                    if token:
-                        # Append the token to the list of tokens in lowercase
-                        list_of_tokens.append(token.lower())
+        # Open and read in a text file byte by byte
+        with open(text_file_path, 'rb') as text_file:
+            while True:
+                byte = text_file.read(1)  # Read one byte
+                if not byte:
+                    break  # Break loop if end of file reached
+
+                # Check if byte is a newline character
+                if byte == b'\n':
+                    # Split temp_token into lines
+                    lines = temp_token.split(b'\n')
+                    temp_token = lines.pop() if lines else b''  # Store the last incomplete line
+
+                    # Process complete lines
+                    for line in lines:
+                        # Split the line into words
+                        words = line.split()
+                        for word in words:
+                            # Check if word is alphanumeric
+                            token = b''.join(bytes([char]) for char in word if chr(char).isalnum() and chr(char).isascii())
+                            if token:
+                                list_of_tokens.append(token.lower().decode('utf-8'))
+
+                else:
+                    # Append byte to temp_token
+                    temp_token += byte
+
+        # Process the remaining incomplete line
+        if temp_token:
+            words = temp_token.split()
+            for word in words:
+                # Check if word is alphanumeric
+                token = b''.join(bytes([char]) for char in word if chr(char).isalnum() and chr(char).isascii())
+                if token:
+                    list_of_tokens.append(token.lower().decode('utf-8'))
+
+        if not list_of_tokens:
+            print("0")
 
     except FileNotFoundError:
         print("File not found.")
@@ -37,7 +119,6 @@ def tokenize(text_file_path: str) -> list:
         print("An error occurred:", e)
 
     return list_of_tokens
-
 
 def compute_word_frequencies(tokens: list) -> dict:
     """
