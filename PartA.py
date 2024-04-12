@@ -2,62 +2,7 @@ import sys
 import os
 import operator
 
-# def tokenize(text_file_path: str) -> list:
-#     """
-#     Runtime Complexity: This is O(N^2) because it uses a for loop within a for loop.
-#
-#     Reads in a text file and returns a list of the tokens in that file.
-#     For the purposes of this project, a token is a sequence of alphanumeric characters, independent of capitalization.
-#
-#     :param text_file_path: Path to the text file to be read.
-#     :return: List of the tokens in that file.
-#     """
-#
-#     # Initialize list of tokens and variables
-#     list_of_tokens = []
-#     buffer_size = 256
-#     temp_token = ''
-#
-#     try:
-#
-#         # Open and read in a text file chunk by chunk
-#         with open(text_file_path, 'r', encoding='utf-8') as text_file:
-#
-#             while True:
-#                 # Reads data in chinks the size of the buffer size
-#                 data = text_file.read(buffer_size)
-#                 if not data:
-#                     break
-#
-#                 # splits data in lines so it's easier to read
-#                 temp_token += data
-#                 lines = temp_token.split('\n')
-#                 temp_token = lines.pop() if lines else ''
-#
-#                 # iterates through each line in the lines
-#                 for line in lines:
-#                     # splits the line into words
-#                     words = line.split()
-#                     # Sorts the words
-#                     for w in words:
-#                         # Check if char is alphanumeric
-#                         token = ''.join(char for char in w if char.isalnum() and char.isascii())
-#                         if token:
-#                             # Appends each token to list and makes it lowercase
-#                             list_of_tokens.append(token.lower())
-#
-#             for w in words:
-#                 # Check if char is alphanumeric
-#                 token = ''.join(char for char in w if char.isalnum() and char.isascii())
-#                 if token:
-#                     # Appends each token to list and makes it lowercase
-#                     list_of_tokens.append(token.lower())
-#
-#     except FileNotFoundError:
-#         print("File not found.")
-#     except Exception as e:
-#         print("An error occurred:", e)
-#     return list_of_tokens
+                 # splits the line into words
 
 def tokenize(text_file_path: str) -> list:
     """
