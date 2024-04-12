@@ -75,16 +75,11 @@ def compute_word_frequencies(tokens: list) -> dict:
 
 def print_frequencies(frequencies: dict) -> None:
     """
-    Runtime Complexity: TODO
+    Runtime Complexity: It is O(nlogn) because of the sorting function used.
 
-    TODO Choose one of the output formats to print the results:
-    <token>\t<freq>
-    <token> <freq>
-    <token> <freq>
-    <token> <freq>
-    <token>> <freq>
+
     <token>-> <freq>
-    <token> > <freq>
+
 
     Prints out the word frequency count, ordered by decreasing frequency (so, the highest frequency words first).
 
