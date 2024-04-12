@@ -2,7 +2,6 @@ import sys
 import os
 import operator
 
-                 # splits the line into words
 
 def tokenize(text_file_path: str) -> list:
     """
@@ -24,9 +23,11 @@ def tokenize(text_file_path: str) -> list:
         # Open and read in a text file byte by byte
         with open(text_file_path, 'rb') as text_file:
             while True:
-                byte = text_file.read(1)  # Read one byte
+                # Read one byte
+                byte = text_file.read(1)
                 if not byte:
-                    break  # Break loop if end of file reached
+                    # Break loop if end of file reached
+                    break
 
                 # Check if byte is a newline character
                 if byte == b'\n':
