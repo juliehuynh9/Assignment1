@@ -61,6 +61,8 @@ import operator
 
 def tokenize(text_file_path: str) -> list:
     """
+    Runtime Complexity: This is O(N^2) because it uses a for loop within a for loop.
+
     Reads in a text file and returns a list of the tokens in that file.
     For the purposes of this project, a token is a sequence of alphanumeric characters, independent of capitalization.
 
