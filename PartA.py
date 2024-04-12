@@ -2,47 +2,39 @@ import sys
 import os
 import operator
 
-
 def tokenize(text_file_path: str) -> list:
     """
-    Runtime Complexity: This is O(N^2) because it uses 2 for loops. One that reads through
-    each line in the text file and another to read through the characters in each line.
+    Runtime Complexity: This function is O(N^2) because we used a for loop within a for loop
 
     Reads in a text file and returns a list of the tokens in that file.
-    For the purposes of this project, a token is a sequence of alphanumeric characters, independent of capitalization
+    For the purposes of this project, a token is a sequence of alphanumeric characters, independent of capitalization.
 
     :param text_file_path: Path to the text file to be read.
     :return: List of the tokens in that file.
     """
 
-    # initialize list of tokens and variables
+    # Initialize list of tokens
     list_of_tokens = []
-    token = ""
-    special_characters = '!\"#$%&\'()*+,-./\\:;<=>?@[]^_`{|}~:\n'
 
-    # opening and reading in a text file
-    with open(text_file_path, 'r') as text_file:
-        # Reads each line from the file
-        for line in text_file:
-            # Converts each line to lowercase
-            low_case_line: str = line.lower()
-
-            for char in low_case_line:
-                # Checks to see if a word has a special character
-                if char == " " or char in special_characters:
+    try:
+        # Open and read in a text file
+        with open(text_file_path, 'r', encoding='utf-8') as text_file:
+            # Iterate over each line in the file
+            for line in text_file:
+                # Split the line into words
+                words = line.split()
+                # Process each word
+                for word in words:
+                    # Check if the word contains only alphanumeric characters and is ASCII and join each character
+                    token = ''.join(char for char in word if char.isalnum() and char.isascii())
                     if token:
-                        # Checks if it's an actual word
-                        if token.isalnum() and token.isascii():
-                            list_of_tokens.append(token)
-                    word = ""
-                else:
-                    # Adds character to token to form a word
-                    token += char
+                        # Append the token to the list of tokens in lowercase
+                        list_of_tokens.append(token.lower())
 
-        # Gets last word in line
-        if token:
-            if token.isalnum() and token.isascii():
-                list_of_tokens.append(token)
+    except FileNotFoundError:
+        print("File not found.")
+    except Exception as e:
+        print("An error occurred:", e)
 
     return list_of_tokens
 
@@ -89,7 +81,7 @@ def print_frequencies(frequencies: dict) -> None:
     sorted_freq = sorted(frequencies.items(), key=operator.itemgetter(1), reverse=True)
 
     for token, freq in sorted_freq:
-        print(f"<{token}> -> <{freq}>")
+        print(f"{token} -> {freq}")
 
 
 if __name__ == '__main__':
